@@ -1,10 +1,17 @@
 const graphql = require('graphql');
 const { GraphQLObjectType, GraphQLID } = graphql;
+const UserType = require("./user_type");
 
 const RootQueryType = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    dummyField: { type: GraphQLID }, //graphql expects at elast one field
+    user: {
+      type: UserType,
+      resolve(parentValue, args, req){
+        //req.user will contain user if user is signed in. Otherwise null or undefined
+        return req.user;
+      }
+    }
   }
 });
 
